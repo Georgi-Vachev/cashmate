@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { User } from "@/utils/types";
 
 interface LoginFormProps {
-    setUser: (user: { id: string; email: string; name: string }) => void;
+    setUser: (user: User) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ setUser }) => {
@@ -20,15 +21,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ setUser }) => {
             return;
         }
 
-        const { data: userData } = await supabase.auth.getUser();
+        // Fetch the full user data from Supabase
+        const { data: authData } = await supabase.auth.getUser();
 
-        if (userData.user) {
-            console.log("User logged in:", userData.user);
-            setUser({
-                id: userData.user.id,
-                email: userData.user.email || "",
-                name: userData.user.user_metadata?.name || "Guest",
-            });
+        if (authData.user) {
+            console.log("User logged in:", authData.user);
+
+            // Fetch user details from `users` table
+            const { data: userData, error: userError } = await supabase
+                .from("users")
+                .select("*")
+                .eq("id", authData.user.id)
+                .single();
+
+            if (userError) {
+                console.error("Failed to fetch user data:", userError.message);
+                return;
+            }
+
+            setUser(userData); // Now contains full user details including balance, currency, etc.
         }
     };
 

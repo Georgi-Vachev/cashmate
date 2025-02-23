@@ -5,12 +5,7 @@ import { supabase } from "@/lib/supabaseClient";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
 import HomeContent from "@/components/HomeContent";
-
-interface User {
-  id: string;
-  email: string;
-  name?: string;
-}
+import { User } from "@/utils/types";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -23,11 +18,17 @@ export default function Home() {
       } = await supabase.auth.getSession();
 
       if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email,
-          name: session.user.user_metadata?.name || "Guest",
-        } as User);
+        const { data: userData, error } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+
+        if (error) {
+          console.error("Failed to fetch user data:", error.message);
+        } else {
+          setUser(userData);
+        }
       } else {
         setUser(null);
       }
@@ -35,19 +36,13 @@ export default function Home() {
 
     fetchUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session?.user) {
-          setUser({
-            id: session.user.id,
-            email: session.user.email,
-            name: session.user.user_metadata?.name || "Guest",
-          } as User);
-        } else {
-          setUser(null);
-        }
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        fetchUser();
+      } else {
+        setUser(null);
       }
-    );
+    });
 
     return () => {
       authListener.subscription.unsubscribe();

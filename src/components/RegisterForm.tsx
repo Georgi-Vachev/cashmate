@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { User } from "@/utils/types";
 
 interface RegisterFormProps {
-    setUser: (user: { id: string; name: string; email: string }) => void;
+    setUser: (user: User) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ setUser }) => {
@@ -29,7 +31,20 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ setUser }) => {
 
         if (response.ok) {
             console.log("Registration successful", data);
-            setUser(data.user); // Directly update state after signup
+
+            // Fetch user details from `users` table after signup
+            const { data: userData, error: userError } = await supabase
+                .from("users")
+                .select("*")
+                .eq("id", data.user.id)
+                .single();
+
+            if (userError) {
+                console.error("Failed to fetch user data:", userError.message);
+                return;
+            }
+
+            setUser(userData); // Now contains full user details
         } else {
             setError(data.error || "Registration failed");
         }
