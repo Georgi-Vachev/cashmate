@@ -1,1 +1,1 @@
-Hosted on Vercel - cashmate-blush.vercel.app
+Hosted on Vercel - https://cashmate-blush.vercel.app/
