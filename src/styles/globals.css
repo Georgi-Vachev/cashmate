@@ -4,5 +4,5 @@
 
 /* Reset default styling */
 html, body {
-  @apply h-screen w-screen flex items-center justify-center bg-gray-900 text-gray-100;
+  @apply w-screen flex items-center justify-center bg-slate-800 text-gray-100;
 }

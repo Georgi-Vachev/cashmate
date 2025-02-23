@@ -21,7 +21,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ user, setUser }) => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center text-center p-6 bg-gray-700 rounded-lg shadow-md w-96">
+        <div className="flex flex-col items-center justify-center text-center p-3 bg-gray-700 rounded-lg shadow-md">
             <h1 className="text-2xl font-bold">Welcome, {user.name || "Guest"}!</h1>
             <p className="text-lg mt-2">Email: {user.email}</p>
             <p className="text-lg">User ID: {user.id}</p>

@@ -38,14 +38,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ setUser }) => {
     return (
         <form
             onSubmit={handleRegister}
-            className="flex flex-col items-center justify-center text-center p-6 bg-gray-700 rounded-lg shadow-md"
+            className="flex flex-col items-center justify-center text-center p-3 bg-gray-700 rounded-lg shadow-md"
         >
             <input
                 type="text"
                 placeholder="Full Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-2 px-4 py-2 w-full rounded-lg border border-gray-900 text-gray-800"
+                className="px-4 py-2 w-full rounded-lg border border-gray-900 text-gray-800"
             />
             <input
                 type="email"

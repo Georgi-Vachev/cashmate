@@ -35,7 +35,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setUser }) => {
     return (
         <form
             onSubmit={handleLogin}
-            className="flex flex-col items-center justify-center text-center p-6 bg-gray-700 rounded-lg shadow-md"
+            className="flex flex-col items-center justify-center text-center p-3 bg-gray-700 rounded-lg shadow-md"
         >
             <input
                 type="email"
