@@ -24,8 +24,6 @@ const HomeContent: React.FC<HomeContentProps> = ({ user, setUser }) => {
     return (
         <div className="flex flex-col items-center justify-center text-center p-6 bg-gray-700 rounded-lg shadow-md w-96">
             <h1 className="text-2xl font-bold text-white">Welcome, {user.name || "Guest"}!</h1>
-            <p className="text-lg mt-2 text-gray-300">Email: {user.email}</p>
-            <p className="text-lg text-gray-300">User ID: {user.id}</p>
             <p className="text-lg font-semibold mt-4 text-white">Account Number: {user.account_number}</p>
             <p className="text-lg font-semibold text-green-400">Balance: {user.balance.toFixed(2)} {user.currency}</p>
 
