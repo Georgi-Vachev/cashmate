@@ -21,13 +21,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ setUser }) => {
             return;
         }
 
-        // Fetch the full user data from Supabase
         const { data: authData } = await supabase.auth.getUser();
 
         if (authData.user) {
             console.log("User logged in:", authData.user);
 
-            // Fetch user details from `users` table
             const { data: userData, error: userError } = await supabase
                 .from("users")
                 .select("*")
@@ -39,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setUser }) => {
                 return;
             }
 
-            setUser(userData); // Now contains full user details including balance, currency, etc.
+            setUser(userData);
         }
     };
 

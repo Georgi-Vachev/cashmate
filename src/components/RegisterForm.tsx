@@ -32,7 +32,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ setUser }) => {
         if (response.ok) {
             console.log("Registration successful", data);
 
-            // Fetch user details from `users` table after signup
             const { data: userData, error: userError } = await supabase
                 .from("users")
                 .select("*")
@@ -44,7 +43,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ setUser }) => {
                 return;
             }
 
-            setUser(userData); // Now contains full user details
+            setUser(userData);
         } else {
             setError(data.error || "Registration failed");
         }
